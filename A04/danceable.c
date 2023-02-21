@@ -34,6 +34,15 @@ struct node {
   struct node* next; //pointer to next node
 };
 
+//This function returns the number of nodes in a list given the list's head
+int count(struct node* list) {
+  int i = 0;
+  for(struct node* n = list; n != NULL; n=n->next) {
+    i++;
+  }
+  return i;
+}
+
 //This function prints the values held in a linked list
 void print(struct node* list) {
   int i = 0;
@@ -45,13 +54,26 @@ void print(struct node* list) {
   }
 }
 
+//This function takes in the head of a linked list, and the name of a node as an argument and deletes the node from the list
+struct node* delete_node(struct node* list, struct node* rm) {
+  for(struct node* n = list; n != NULL; n=n->next) {
+    if(n->song.danceability == rm->song.danceability) {
+      list->next = rm->next;
+      rm = n;
+    }
+    list = n;
+  }
+  return rm;
+}
+
 //This function traverses the linked list and finds the song with the max danceability
 struct node* find_max_danceability(struct node* list) {
   struct node* most_danceable = list;
   for(struct node* n = list; n != NULL; n=n->next) {
-    if(list->song.danceability < n->song.danceability) {
-      most_danceable = n;
+    if(n->song.danceability > most_danceable->song.danceability) {
+      most_danceable = n; 
     }
+    list = n;
   }
   //printf("%f \n", most_danceable->song.danceability);
   return most_danceable;
@@ -75,6 +97,9 @@ int main() {
   FILE* infile;  
   char* token;  
   char row[1000];
+  char input;
+	int num_songs;
+
   //struct node* new_node;
   struct node* head_ptr = NULL;
   int i = 0;
@@ -136,20 +161,60 @@ int main() {
   //insert a new node
   head_ptr = insert_front(new_song_struct, head_ptr);
 
-  
-  }
-
-  //print linked list
-  print(head_ptr);
-
-  //find most danceable song
-  struct node* max_danceability_node = find_max_danceability(head_ptr);
-
-  printf ("-------------------------------------------------- Most Danceable --------------------------------------------------\n");
-  print(max_danceability_node);
-  printf ("--------------------------------------------------------------------------------------------------------------------\n");
-
+  } //end of while loop
   fclose(infile);
 
+  //print linked list
+  printf("\n");
+  print(head_ptr);
+  printf("\n");
+  printf("This dataset contains %d songs \n", count(head_ptr));
+  printf("\n");
+  printf ("--------------------------------------------\n");
+  printf ("--------------------------------------------\n");
+  printf("\n");
+  
+  printf("Press 'd' to show the most danceable song (any other key to quit): ");  
+  
+  scanf("%c", &input);
+  printf("\n");
+
+	
+  if(input == 'd') {
+
+
+		for(num_songs = count(head_ptr); num_songs > 0; num_songs += 0) {
+			if(input == 'd') { 
+			//find most danceable song
+			struct node* max_danceability_node = find_max_danceability(head_ptr);
+
+			
+
+			//print the most danceable node
+			printf ("-------------------------------------------------- Most Danceable --------------------------------------------------\n");
+			print(max_danceability_node);
+			printf ("--------------------------------------------------------------------------------------------------------------------\n");
+
+			//delete most danceable node
+			delete_node(head_ptr, max_danceability_node);
+
+			//print linked list
+			print(head_ptr);
+			printf("\n");
+			printf("This dataset contains %d songs \n", count(head_ptr));
+			printf("\n");
+			printf ("--------------------------------------------\n");
+			printf ("--------------------------------------------\n");
+			printf("\n");
+
+			printf("Press 'd' to show the most danceable song (any other key to quit): ");  
+			scanf("%c %*c", &input);
+			printf("%c hi",input); //problem here
+			printf("\n");
+
+			num_songs = count(head_ptr);
+			}
+		}
+  }
   return 0;
 }
