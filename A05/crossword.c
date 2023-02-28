@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
   
   int w1_length = strlen(argv[1]); //dictates number of rows
   int w2_length = strlen(argv[2]); //dictates number of columns
-
+  int letter_found = 0;
 
   // the 2D array variable is declared to be `int **` (a pointer to an int *)
   // a dynamically allocated array of dynamically allocated int arrays
@@ -51,7 +51,9 @@ int main(int argc, char* argv[]) {
 
       //if the character in elephant matches the character in onion
       if(argv[1][i] == argv[2][j]) { //argv[][] returns an int which is the address to where the char is stored
-    
+
+        letter_found = 1; 
+
         //print elephant down the jth column
         for(int j2 = 0; j2 < w1_length; j2++) {
           two_d_array[j2][j] = argv[1][j2];
@@ -64,19 +66,25 @@ int main(int argc, char* argv[]) {
         break;
       }
     }
+  }
+  
+  if(letter_found != 1) {
     printf("No letter in common\n");
   }
 
-
   //print two_d_array
-
   for(int r = 0; r < w1_length; r++) {
     for(int c = 0; c < w2_length; c++) {
         printf("%c", two_d_array[r][c]);
     }
     printf("\n");
   }
+
+  for(int b=0; b < w2_length; b++) {
+    free(two_d_array[b]);
+  }
   free(two_d_array);
+  
 
   return 0;
 }
