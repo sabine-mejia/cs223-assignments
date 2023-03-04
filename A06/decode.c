@@ -47,57 +47,57 @@ int main(int argc, char** argv) {
   one_d_pixel_arr = to_one_d_array(two_d_pixel_arr, w, h);
 
   printf("Reading %s with width: %d and height: %d\n", filename, w, h);
+  printf("Max number of characters in the image: %d\n", w * h * 3 / 8);
 
 
   bin_str = malloc(sizeof(int) * 3 * w * h);
   int c = 0;
   for(int i = 0; i < w * h; i++) {
     if(one_d_pixel_arr[i].red % 2 == 0) {
-      bin_str[c] = 0;
+      bin_str[c] = '0';
     }
     else {
-      bin_str[c] = 1;
+      bin_str[c] = '1';
     }
     c++;
     if(one_d_pixel_arr[i].green % 2 == 0) {
-      bin_str[c] = 0;
+      bin_str[c] = '0';
     }
     else {
-      bin_str[c] = 1;
+      bin_str[c] = '1';
     }
     c++;
     if(one_d_pixel_arr[i].blue % 2 == 0) {
-      bin_str[c] = 0;
+      bin_str[c] = '0';
     }
     else {
-      bin_str[c] = 1;
+      bin_str[c] = '1';
     }
     c++;
   }
 
   for(int i = 0; i < 3 * w * h; i++) {
-    printf("%d", bin_str[i]);
   }
-  printf("\n");
 
   eight_bit_str = malloc(sizeof(char) * 8);
   c = 0;
   for(int i = 0; i < 3 * w * h; i++) {
     if(c < 8) {
       eight_bit_str[c] = bin_str[i];
-      printf("%d\n", bin_str[i]);
-    }
-    c++;
-    if(c == 8) {
-      integer = fromBinary(eight_bit_str);
-      printf("%c\n", (char)(integer));
-      c = 0;
+      c++;
     }
     
+    if(c == 8) {
+      integer = fromBinary(eight_bit_str);
+      printf("%c", integer);
+      c = 0;
+    }
   }
-  
+  printf("\n");
 
-
+  free(one_d_arr);
+  free(bin_str);
+  free(eight_bit_str);
 
   return 0;
 }
