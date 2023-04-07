@@ -16,6 +16,20 @@ int main(int argc, char* argv[]) {
   int maxIterations = 1000;
   int numProcesses = 4;
 
+  struct ppm_pixel** pixel_array;
+  float xfrac, yfrac, x0, y0, x, y, xtmp;
+  int iter;
+  struct ppm_pixel palette[1000];
+  struct ppm_pixel color;
+  struct ppm_pixel black;
+  char filename[100];
+  struct timeval tstart, tend;
+  double timer;
+
+  black.red = 0;
+  black.green = 0;
+  black.blue = 0;
+
   int opt;
   while ((opt = getopt(argc, argv, ":s:l:r:t:b:p:")) != -1) {
     switch (opt) {
@@ -35,5 +49,11 @@ int main(int argc, char* argv[]) {
 
   // todo: your code here
   // generate pallet
+  for(int i = 0; i < maxIterations; i++) {
+    palette[i].red = rand() % 255;
+    palette[i].green = rand() % 255;
+    palette[i].blue = rand() % 255;
+  }
+
   // compute image
 }
