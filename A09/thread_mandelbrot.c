@@ -205,8 +205,14 @@ int main(int argc, char* argv[]) {
   //initialize threads in thread_array
   for (int i = 0; i < 4; i++) {
     pthread_create(&thread_array[i], NULL, GenerateManddelbrot, &thread_args[i]);
+
+
+    printf("Thread %ld) sub-image block: cols (%d, %d) to rows (%d,%d)\n", 
+    thread_args[i].id, thread_args[i].col_start, thread_args[i].col_end, 
+    thread_args[i].row_start, thread_args[i].row_end);
   } 
   for (int i = 0; i < 4; i++) {
+    printf("Thread %ld) Finished\n", thread_args[i].id);
     pthread_join(thread_array[i], NULL);
   }
   gettimeofday(&tend, NULL);
@@ -218,6 +224,7 @@ int main(int argc, char* argv[]) {
   write_ppm_2d(filename, pixel_array, size, size); 
 
   printf("Computed mandelbrot set (%dx%d) in %.6f seconds\n", size, size, timer);
+  printf("Writing file: mandelbrot-%d-%ld.ppm\n", size, time(0));
 
   for(int i = 0; i < size; i++) {
     free(pixel_array[i]);
