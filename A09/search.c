@@ -107,5 +107,7 @@ int main(int argc, char** argv) {
   }
 
   free(int_arr);
+  free(thread_array);
+  free(thread_args);
   return 0;
 }
