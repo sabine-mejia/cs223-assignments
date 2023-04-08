@@ -219,4 +219,12 @@ int main(int argc, char* argv[]) {
 
   printf("Computed mandelbrot set (%dx%d) in %.6f seconds\n", size, size, timer);
 
+  for(int i = 0; i < size; i++) {
+    free(pixel_array[i]);
+  }
+  free(pixel_array);
+  free(color_palet);
+  free(thread_array);
+  free(thread_args);
+
 }
